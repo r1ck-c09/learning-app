@@ -1,1 +1,18 @@
-/* styles go here */
+body {
+    background-color: #000000;
+}
+#nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #111111;
+    padding: 12px 0;
+}
+#nav button {
+    background-color: transparent;
+    border-radius: 8px;
+    color: #ffffff;
+    border: none;
+}
