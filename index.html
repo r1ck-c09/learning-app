@@ -8,13 +8,13 @@
   </head>
   <body>
     <div id="app">
-      <div id="home-panel"></div>
-      <div id="courses-panel"></div>
-      <div id="statistics-panel"></div>
+      <div id="home-panel" class="tab-content">Home Content</div>
+      <div id="courses-panel" class="tab-content">Courses Content</div>
+      <div id="statistics-panel" class="tab-content">Statistics Content</div>
       <div id="nav">
-        <button>Home</button>
-        <button>Courses</button>
-        <button>Statistics</button>
+        <button class="tab-button" data-target="home-panel">Home</button>
+        <button class="tab-button" data-target="courses-panel">Courses</button>
+        <button class="tab-button" data-target="statistics-panel">Statistics</button>
       </div>
     </div>
     <script src="js/app.js"></script>
