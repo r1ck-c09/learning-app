@@ -8,12 +8,13 @@ function showTab(){
 
             tabContents.forEach(content => {
                 if (content.id === target) {
-                    content.style.display = 'block';
+                    content.classList.add('active');
                 } else {
-                    content.style.display = 'none';
+                    content.classList.remove('active');
                 }
             });
         });
     });
 }
 showTab();
+document.getElementById('home-panel').classList.add('active');
