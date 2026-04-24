@@ -25,3 +25,4 @@ function showTab(){
 }
 showTab();
 document.getElementById('home-panel').classList.add('active');
+document.querySelector('#nav [data-target="home-panel"]').classList.add('active');

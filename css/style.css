@@ -15,6 +15,7 @@ body {
     border-radius: 8px;
     color: #ffffff;
     border: none;
+    padding: 6px 4px;
 }
 #nav button.active {
     background-color: #3f3f3f;
