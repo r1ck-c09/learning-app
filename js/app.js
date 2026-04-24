@@ -31,14 +31,48 @@ function loadCourses() {
     fetch('content/fields.json')
         .then(response => response.json())
         .then(data => {
-            const dataPanel = document.getElementById('courses-panel');
+            const coursesPanel = document.getElementById('courses-panel');
 
             data.fields.forEach(field => {
                 const card = document.createElement('div');
-                card.textContent = field.name;
-                card.style.backgroundColor = field.color;
-                dataPanel.appendChild(card);
+                card.classList.add('field-card');
+                card.style.setProperty('--accent-color', field.color); 
+                coursesPanel.appendChild(card);
+                const cardText = document.createElement('h2');
+                cardText.textContent = field.name;
+                card.appendChild(cardText);
+                const cardIcon = document.createElement('img');
+                cardIcon.src = field.icon;
+                card.appendChild(cardIcon);
+                card.addEventListener('click', () => {
+                    const subjectsPanel = document.getElementById('subjects-panel');
+                    coursesPanel.classList.remove('active');
+                    subjectsPanel.classList.add('active');
+                    loadSubjects(field.id);
+                });
             });
         });
 }
 loadCourses();
+function loadSubjects(fieldId) {
+    fetch('content/subjects.json')
+        .then(response => response.json())
+        .then(data => {
+            const subjectsPanel = document.getElementById('subjects-panel');
+
+            data.subjects.forEach(subject => {
+                if (subject.fieldId === fieldId) {
+                    const subjectCard = document.createElement('div');
+                    subjectCard.classList.add('subject-card');
+                    subjectsPanel.appendChild(subjectCard);
+                    const subjectText = document.createElement('h2');
+                    subjectText.textContent = subject.name;
+                    subjectCard.appendChild(subjectText);
+                    const subjectIcon = document.createElement('img');
+                    subjectIcon.src = subject.icon;
+                    subjectCard.appendChild(subjectIcon);
+                }
+            });
+        });
+
+}

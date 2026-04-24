@@ -31,3 +31,19 @@ body {
 .tab-content.active {
     display: block;
 }
+#courses-panel {
+    overflow-y: auto;
+}
+#courses-panel.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.field-card {
+    width: 65%;
+    height: 200px;
+    border-radius: 20px;
+    border: 2px solid rgba(255,255,255,0.1);
+    margin-bottom: 16px;
+}

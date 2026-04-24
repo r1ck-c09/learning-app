@@ -1,0 +1,88 @@
+{
+    "subjects": [
+        {
+            "id": "italian",
+            "name": "Italian",
+            "fieldId": "languages",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "spanish",
+            "name": "Spanish",
+            "fieldId": "languages",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "english",
+            "name": "English",
+            "fieldId": "languages",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "japanese",
+            "name": "Japanese",
+            "fieldId": "languages",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "variables",
+            "name": "Variables",
+            "fieldId": "coding-basics",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "functions",
+            "name": "Functions",
+            "fieldId": "coding-basics",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "loops",
+            "name": "Loops",
+            "fieldId": "coding-basics",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "conditionals",
+            "name": "Conditionals",
+            "fieldId": "coding-basics",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "physics",
+            "name": "Physics",
+            "fieldId": "science",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "biology",
+            "name": "Biology",
+            "fieldId": "science",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "chemistry",
+            "name": "Chemistry",
+            "fieldId": "science",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "astronomy",
+            "name": "Astronomy",
+            "fieldId": "science",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        }
+    ]
+}
