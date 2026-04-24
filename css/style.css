@@ -16,6 +16,9 @@ body {
     color: #ffffff;
     border: none;
 }
+#nav button.active {
+    background-color: #3f3f3f;
+}
 .tab-content {
     display: none;
     padding: 20px;
@@ -23,7 +26,4 @@ body {
 }
 .tab-content.active {
     display: block;
-}
-.tab-button.active {
-    background-color: #948b8b;
 }
