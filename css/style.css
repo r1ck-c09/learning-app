@@ -24,3 +24,6 @@ body {
 .tab-content.active {
     display: block;
 }
+.tab-button.active {
+    background-color: #3f3f3f;
+}

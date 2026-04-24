@@ -13,6 +13,13 @@ function showTab(){
                     content.classList.remove('active');
                 }
             });
+            tabButtons.forEach(btn => {
+                if (btn === button) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
         });
     });
 }
