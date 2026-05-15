@@ -1,0 +1,172 @@
+{
+    "categories": [
+        {
+            "id": "italian-vocabulary",
+            "name": "Vocabulary",
+            "subjectId": "italian",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "italian-grammar",
+            "name": "Grammar",
+            "subjectId": "italian",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "spanish-vocabulary",
+            "name": "Vocabulary",
+            "subjectId": "spanish",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "spanish-grammar",
+            "name": "Grammar",
+            "subjectId": "spanish",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "english-vocabulary",
+            "name": "Vocabulary",
+            "subjectId": "english",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "english-grammar",
+            "name": "Grammar",
+            "subjectId": "english",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "japanese-vocabulary",
+            "name": "Vocabulary",
+            "subjectId": "japanese",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "japanese-grammar",
+            "name": "Grammar",
+            "subjectId": "japanese",
+            "color": "#22c55e",
+            "icon": "placeholder"
+        },
+        {
+            "id": "variables-declaration",
+            "name": "Declaration",
+            "subjectId": "variables",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "variables-types",
+            "name": "Data Types",
+            "subjectId": "variables",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "functions-definition",
+            "name": "Definition",
+            "subjectId": "functions",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "functions-arguments",
+            "name": "Arguments",
+            "subjectId": "functions",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "loops-for",
+            "name": "For Loops",
+            "subjectId": "loops",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "loops-while",
+            "name": "While Loops",
+            "subjectId": "loops",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "conditionals-if",
+            "name": "If / Else",
+            "subjectId": "conditionals",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "conditionals-switch",
+            "name": "Switch",
+            "subjectId": "conditionals",
+            "color": "#3b82f6",
+            "icon": "placeholder"
+        },
+        {
+            "id": "physics-mechanics",
+            "name": "Mechanics",
+            "subjectId": "physics",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "physics-thermodynamics",
+            "name": "Thermodynamics",
+            "subjectId": "physics",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "biology-cells",
+            "name": "Cells",
+            "subjectId": "biology",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "biology-evolution",
+            "name": "Evolution",
+            "subjectId": "biology",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "chemistry-elements",
+            "name": "Elements",
+            "subjectId": "chemistry",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "chemistry-reactions",
+            "name": "Reactions",
+            "subjectId": "chemistry",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "astronomy-solarsystem",
+            "name": "Solar System",
+            "subjectId": "astronomy",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        },
+        {
+            "id": "astronomy-stars",
+            "name": "Stars",
+            "subjectId": "astronomy",
+            "color": "#f59e0b",
+            "icon": "placeholder"
+        }
+    ]
+}
