@@ -22,6 +22,35 @@ function fetchAllData() {
 
 // Helper functions
 
+function loadPanel(panelId, items, filterKey, filterValue, cardClass, nextPanelId, onCardClick) {
+    const panel = document.getElementById(panelId);
+    const nextPanel = document.getElementById(nextPanelId);
+    document.querySelectorAll('.' + cardClass).forEach(card => card.remove());
+
+    items.forEach(item => {
+        if (item[filterKey] === filterValue) {
+            const itemCard = document.createElement('div');
+            itemCard.classList.add(cardClass);
+            panel.appendChild(itemCard);
+            const itemText = document.createElement('h2');
+            itemText.textContent = item.name;
+            itemCard.appendChild(itemText);
+            const itemIcon = document.createElement('img');
+            itemIcon.src = item.icon;
+            itemCard.appendChild(itemIcon);
+            itemCard.addEventListener('click', () => {
+                if (nextPanel) {
+                    panel.classList.remove('active');
+                    nextPanel.classList.add('active');
+                }
+                if (onCardClick) {
+                    onCardClick(item.id);
+                }
+            });
+        }
+    });
+}
+
 function goBack(currentPanelId, targetPanelId){
     const targetPanel = document.getElementById(targetPanelId);
     const currentPanel = document.getElementById(currentPanelId);
@@ -82,72 +111,15 @@ function loadCourses() {
 }
 
 function loadSubjects(fieldId) {
-    const subjectsPanel = document.getElementById('subjects-panel');
-    document.querySelectorAll('.subject-card').forEach(card => card.remove());
-
-    subjectsData.subjects.forEach(subject => {
-        if (subject.fieldId === fieldId) {
-            const subjectCard = document.createElement('div');
-            subjectCard.classList.add('subject-card');
-            subjectsPanel.appendChild(subjectCard);
-            const subjectText = document.createElement('h2');
-            subjectText.textContent = subject.name;
-            subjectCard.appendChild(subjectText);
-            const subjectIcon = document.createElement('img');
-            subjectIcon.src = subject.icon;
-            subjectCard.appendChild(subjectIcon);
-            subjectCard.addEventListener('click', () => {
-                const categoriesPanel = document.getElementById('categories-panel');
-                subjectsPanel.classList.remove('active');
-                categoriesPanel.classList.add('active');
-                loadCategories(subject.id);
-            });
-        }
-    });
+    loadPanel('subjects-panel', subjectsData.subjects, 'fieldId', fieldId, 'subject-card', 'categories-panel', loadCategories);
 }
 
 function loadCategories(subjectId) {
-    const categoriesPanel = document.getElementById('categories-panel');
-    document.querySelectorAll('.category-card').forEach(card => card.remove());
-
-    categoriesData.categories.forEach(category => {
-        if (category.subjectId === subjectId) {
-            const categoryCard = document.createElement('div');
-            categoryCard.classList.add('category-card');
-            categoriesPanel.appendChild(categoryCard);
-            const categoryText = document.createElement('h2');
-            categoryText.textContent = category.name;
-            categoryCard.appendChild(categoryText);
-            const categoryIcon = document.createElement('img');
-            categoryIcon.src = category.icon;
-            categoryCard.appendChild(categoryIcon);
-            categoryCard.addEventListener('click', () => {
-                const lessonsPanel = document.getElementById('lessons-panel');
-                categoriesPanel.classList.remove('active');
-                lessonsPanel.classList.add('active');
-                loadLessons(category.id);
-            });
-        }
-    });
+    loadPanel('categories-panel', categoriesData.categories, 'subjectId', subjectId, 'category-card', 'lessons-panel', loadLessons);
 }
 
 function loadLessons(categoryId) {
-    const lessonsPanel = document.getElementById('lessons-panel');
-    document.querySelectorAll('.lesson-card').forEach(card => card.remove());
-
-    lessonsData.lessons.forEach(lesson => {
-        if (lesson.categoryId === categoryId) {
-            const lessonCard = document.createElement('div');
-            lessonCard.classList.add('lesson-card');
-            lessonsPanel.appendChild(lessonCard);
-            const lessonText = document.createElement('h2');
-            lessonText.textContent = lesson.name;
-            lessonCard.appendChild(lessonText);
-            const lessonIcon = document.createElement('img');
-            lessonIcon.src = lesson.icon;
-            lessonCard.appendChild(lessonIcon);
-        }
-    });
+    loadPanel('lessons-panel', lessonsData.lessons, 'categoryId', categoryId, 'lesson-card', null, null);
 }
 
 // Init
