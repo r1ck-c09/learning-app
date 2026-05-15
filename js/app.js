@@ -68,8 +68,8 @@ function loadSubjects(fieldId) {
         .then(response => response.json())
         .then(data => {
             const subjectsPanel = document.getElementById('subjects-panel');
-
-            subjectsPanel.innerHTML = "";
+            const subjectsPanelCards = document.querySelectorAll('.subject-card');
+            subjectsPanelCards.forEach(card => card.remove());
 
             data.subjects.forEach(subject => {
                 if (subject.fieldId === fieldId) {
