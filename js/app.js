@@ -1,3 +1,15 @@
+// Helper functions
+
+function goBack(currentPanelId, targetPanelId){
+    const targetPanel = document.getElementById(targetPanelId);
+    const currentPanel = document.getElementById(currentPanelId);
+
+    currentPanel.classList.remove('active');
+    targetPanel.classList.add('active');
+}
+
+// Loaders
+
 function showTab(){
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
@@ -23,9 +35,6 @@ function showTab(){
         });
     });
 }
-showTab();
-document.getElementById('home-panel').classList.add('active');
-document.querySelector('#nav [data-target="home-panel"]').classList.add('active');
 
 function loadCourses() {
     fetch('content/fields.json')
@@ -36,7 +45,7 @@ function loadCourses() {
             data.fields.forEach(field => {
                 const card = document.createElement('div');
                 card.classList.add('field-card');
-                card.style.setProperty('--accent-color', field.color); 
+                card.style.setProperty('--accent-color', field.color);
                 coursesPanel.appendChild(card);
                 const cardText = document.createElement('h2');
                 cardText.textContent = field.name;
@@ -53,12 +62,14 @@ function loadCourses() {
             });
         });
 }
-loadCourses();
+
 function loadSubjects(fieldId) {
     fetch('content/subjects.json')
         .then(response => response.json())
         .then(data => {
             const subjectsPanel = document.getElementById('subjects-panel');
+
+            subjectsPanel.innerHTML = "";
 
             data.subjects.forEach(subject => {
                 if (subject.fieldId === fieldId) {
@@ -74,5 +85,14 @@ function loadSubjects(fieldId) {
                 }
             });
         });
-
 }
+
+// Init
+
+showTab();
+loadCourses();
+document.getElementById('home-panel').classList.add('active');
+document.querySelector('#nav [data-target="home-panel"]').classList.add('active');
+document.querySelector('#subjects-panel .back-button').addEventListener('click', () => {
+    goBack('subjects-panel', 'courses-panel');
+});
