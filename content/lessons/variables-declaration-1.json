@@ -1,0 +1,61 @@
+{
+    "version": 1,
+    "id": "variables-declaration-1",
+    "title": "var, let, const",
+    "description": "Learn the three ways to declare variables in JavaScript and when to use each.",
+    "blocks": [
+        {
+            "type": "text",
+            "content": "In JavaScript, you declare a variable using one of three keywords: var, let, or const. A variable is a named container that holds a value.\n\nvar is the oldest way to declare a variable. It was the only option before 2015. Today it is rarely used in modern code because it has some surprising behaviours around scope.\n\nlet and const were introduced in ES6 (2015) and are now the standard.\n\nUse let when you expect the value to change. Use const when the value should stay fixed after it is first assigned."
+        },
+        {
+            "type": "question",
+            "question": {
+                "type": "multiple-choice",
+                "question": "Which keyword should you use when a value will not change?",
+                "options": ["var", "let", "const", "fixed"],
+                "answer": 2
+            }
+        },
+        {
+            "type": "question",
+            "question": {
+                "type": "flashcard",
+                "front": "What does const mean in JavaScript?",
+                "back": "const declares a variable whose value cannot be reassigned after it is first set."
+            }
+        },
+        {
+            "type": "text",
+            "content": "Here is what each keyword looks like in practice:\n\n  var age = 25;\n  let score = 0;\n  const name = 'Riccardo';\n\nNotice that const and let are block-scoped — they only exist inside the block (curly braces) where they are declared. var is function-scoped, which is one reason it can behave unexpectedly."
+        },
+        {
+            "type": "question",
+            "question": {
+                "type": "fill-in-the-blank",
+                "question": "var, let, and const are all used to ___ variables.",
+                "answer": "declare"
+            }
+        },
+        {
+            "type": "question",
+            "question": {
+                "type": "matching-pairs",
+                "pairs": [
+                    { "left": "var", "right": "Old-style, function-scoped" },
+                    { "left": "let", "right": "Block-scoped, value can change" },
+                    { "left": "const", "right": "Block-scoped, value cannot change" }
+                ]
+            }
+        },
+        {
+            "type": "question",
+            "question": {
+                "type": "ordering",
+                "question": "Order these keywords from oldest to newest introduction in JavaScript.",
+                "items": ["const", "var", "let"],
+                "answer": [1, 2, 0]
+            }
+        }
+    ]
+}

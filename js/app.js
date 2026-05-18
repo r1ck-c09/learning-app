@@ -119,7 +119,16 @@ function loadCategories(subjectId) {
 }
 
 function loadLessons(categoryId) {
-    loadPanel('lessons-panel', lessonsData.lessons, 'categoryId', categoryId, 'lesson-card', null, null);
+    loadPanel('lessons-panel', lessonsData.lessons, 'categoryId', categoryId, 'lesson-card', 'lessons-content-panel', loadLesson);
+}
+
+function loadLesson(lessonId) {
+    document.getElementById('lesson-content').innerHTML = '';
+    fetch('content/lessons/' + lessonId + '.json')
+        .then(r => r.json())
+        .then(lesson => {
+            lesson.blocks.forEach(block => renderBlock(block));
+        });
 }
 
 // Init
@@ -136,4 +145,7 @@ document.querySelector('#categories-panel .back-button').addEventListener('click
 });
 document.querySelector('#lessons-panel .back-button').addEventListener('click', () => {
     goBack('lessons-panel', 'categories-panel');
+});
+document.querySelector('#lessons-content-panel .back-button').addEventListener('click', () => {
+    goBack('lessons-content-panel', 'lessons-panel');
 });
