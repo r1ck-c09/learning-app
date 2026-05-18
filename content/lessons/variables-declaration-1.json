@@ -6,32 +6,32 @@
     "blocks": [
         {
             "type": "text",
-            "content": "In JavaScript, a variable is a named container for a value. You create one using a keyword: var, let, or const.\n\nThe keyword you choose affects how the variable behaves — not just what it holds."
+            "content": "When you write a program, you need to hold onto information — a username, a score, an app setting. In JavaScript, you store a value in a variable and give it a name you can use later.\n\nEvery variable starts with a keyword. Use const for values that will never change, let for values that will, and var for legacy code — though modern JavaScript prefers let and const."
         },
         {
             "type": "question",
             "question": {
                 "type": "multiple-choice",
-                "question": "You're storing a website's base URL — it will never change. Which keyword should you use?",
-                "options": ["var", "let", "const", "It doesn't matter"],
-                "answer": 2
+                "question": "You're building a fitness app that tracks how many steps the user has taken today. The count starts at zero and increases as they walk. Which keyword should you use?",
+                "options": ["const", "let", "var", "int"],
+                "answer": 1
             }
         },
         {
             "type": "text",
-            "content": "const means the variable cannot be reassigned after it's created. let allows reassignment.\n\nUse const as your default. Only reach for let when you know the value will need to change — like a score or a counter."
+            "content": "const stands for constant — a value you lock in place. Once you create a const variable, you cannot reassign it — that means you cannot update it to hold a new value. JavaScript will throw an error if you try.\n\nUse const as your default. Only reach for let when the value will need to change — like a score that ticks up, or a form field the user can edit."
         },
         {
             "type": "question",
             "question": {
                 "type": "fill-in-the-blank",
-                "question": "A variable declared with const cannot be ___ after it is created.",
+                "question": "A const variable cannot be ___ after it is created.",
                 "answer": "reassigned"
             }
         },
         {
             "type": "text",
-            "content": "var is the old way to declare variables. Unlike let and const, it ignores block boundaries — a var declared inside an if block leaks out and is visible beyond it.\n\nThis causes subtle bugs. Modern JavaScript uses let and const instead, and var is best avoided."
+            "content": "var is the original JavaScript keyword, but it has a quirk: it ignores block boundaries. A var declared inside an if statement is visible outside it — which can cause subtle bugs that are hard to trace.\n\nModern JavaScript uses let and const instead. You will encounter var in older code, but there is no reason to use it in new code."
         },
         {
             "type": "question",
