@@ -6,38 +6,42 @@
     "blocks": [
         {
             "type": "text",
-            "content": "In JavaScript, you declare a variable using one of three keywords: var, let, or const. A variable is a named container that holds a value.\n\nvar is the oldest way to declare a variable. It was the only option before 2015. Today it is rarely used in modern code because it has some surprising behaviours around scope.\n\nlet and const were introduced in ES6 (2015) and are now the standard.\n\nUse let when you expect the value to change. Use const when the value should stay fixed after it is first assigned."
+            "content": "In JavaScript, a variable is a named container for a value. You create one using a keyword: var, let, or const.\n\nThe keyword you choose affects how the variable behaves — not just what it holds."
         },
         {
             "type": "question",
             "question": {
                 "type": "multiple-choice",
-                "question": "Which keyword should you use when a value will not change?",
-                "options": ["var", "let", "const", "fixed"],
+                "question": "You're storing a website's base URL — it will never change. Which keyword should you use?",
+                "options": ["var", "let", "const", "It doesn't matter"],
                 "answer": 2
             }
         },
         {
             "type": "text",
-            "content": "Here is what each keyword looks like in practice:\n\n  var age = 25;\n  let score = 0;\n  const name = 'Riccardo';\n\nNotice that const and let are block-scoped — they only exist inside the block (curly braces) where they are declared. var is function-scoped, which is one reason it can behave unexpectedly."
+            "content": "const means the variable cannot be reassigned after it's created. let allows reassignment.\n\nUse const as your default. Only reach for let when you know the value will need to change — like a score or a counter."
         },
         {
             "type": "question",
             "question": {
                 "type": "fill-in-the-blank",
-                "question": "var, let, and const are all used to ___ variables.",
-                "answer": "declare"
+                "question": "A variable declared with const cannot be ___ after it is created.",
+                "answer": "reassigned"
             }
+        },
+        {
+            "type": "text",
+            "content": "var is the old way to declare variables. Unlike let and const, it ignores block boundaries — a var declared inside an if block leaks out and is visible beyond it.\n\nThis causes subtle bugs. Modern JavaScript uses let and const instead, and var is best avoided."
         },
         {
             "type": "question",
             "question": {
                 "type": "matching-pairs",
-                "question": "Match each keyword to its description.",
+                "question": "Match each keyword to its key characteristic.",
                 "pairs": [
-                    { "left": "var", "right": "Old-style, function-scoped" },
-                    { "left": "let", "right": "Block-scoped, value can change" },
-                    { "left": "const", "right": "Block-scoped, value cannot change" }
+                    { "left": "var", "right": "Ignores block boundaries" },
+                    { "left": "let", "right": "Block-scoped, reassignable" },
+                    { "left": "const", "right": "Block-scoped, cannot be reassigned" }
                 ]
             }
         },
@@ -45,8 +49,8 @@
             "type": "question",
             "question": {
                 "type": "ordering",
-                "question": "Order these keywords from oldest to newest introduction in JavaScript.",
-                "items": ["var", "let", "const"]
+                "question": "Order these keywords from most to least restrictive.",
+                "items": ["const", "let", "var"]
             }
         }
     ]

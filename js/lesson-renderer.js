@@ -95,7 +95,7 @@ function renderMultipleChoice(question) {
             cross.classList.add('incorrect');
             questionElement.appendChild(cross);
         }
-        checkAnswer.disabled = true;
+        questionElement.querySelectorAll('button').forEach(btn => btn.disabled = true);
         alreadyAnswered = true;
     });
 
@@ -250,6 +250,7 @@ function renderOrdering(question) {
     let touchClone = null;
     let touchOffsetX = 0;
     let touchOffsetY = 0;
+    let alreadyAnswered = false;
 
     const questionElement = document.createElement('div');
     const questionText = document.createElement('p');
@@ -266,6 +267,7 @@ function renderOrdering(question) {
         li.draggable = true;
 
         li.addEventListener('dragstart', () => {
+            if (alreadyAnswered) return;
             draggedItem = li;
             setTimeout(() => li.classList.add('dragging'), 0);
         });
@@ -288,6 +290,7 @@ function renderOrdering(question) {
         });
 
         li.addEventListener('touchstart', (e) => {
+            if (alreadyAnswered) return;
             draggedItem = li;
             const touch = e.touches[0];
             const rect = li.getBoundingClientRect();
@@ -347,6 +350,8 @@ function renderOrdering(question) {
         }
         questionElement.appendChild(feedback);
         checkAnswer.disabled = true;
+        alreadyAnswered = true;
+        list.querySelectorAll('li').forEach(item => item.draggable = false);
     });
 
     questionElement.appendChild(questionText);
