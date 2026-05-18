@@ -33,6 +33,7 @@
             "type": "question",
             "question": {
                 "type": "matching-pairs",
+                "question": "Match each keyword to its description.",
                 "pairs": [
                     { "left": "var", "right": "Old-style, function-scoped" },
                     { "left": "let", "right": "Block-scoped, value can change" },

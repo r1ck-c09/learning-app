@@ -52,6 +52,8 @@ function renderQuestion(question) {
         case "ordering":
             renderOrdering(question);
             break;
+        default:
+            console.warn('Unknown question type:', question.type);
     }
 }
 
@@ -134,6 +136,7 @@ function renderFillInTheBlank(question) {
             questionElement.appendChild(cross);
         }
         checkAnswer.disabled = true;
+        answerField.disabled = true;
         alreadyAnswered = true;
     });
 
@@ -147,8 +150,11 @@ function renderMatchingPairs(question) {
     let selectedItem = null;
 
     const questionElement = document.createElement('div');
+    const questionText = document.createElement('p');
     const leftCol = document.createElement('div');
     const rightCol = document.createElement('div');
+
+    questionText.textContent = question.question;
     const rightValues = shuffle(question.pairs.map(p => p.right));
 
     for (let i = 0; i < question.pairs.length; i++) {
@@ -233,6 +239,7 @@ function renderMatchingPairs(question) {
         leftCol.appendChild(leftButton);
         rightCol.appendChild(rightButton);
     }
+    questionElement.appendChild(questionText);
     questionElement.appendChild(leftCol);
     questionElement.appendChild(rightCol);
     lessonContent.appendChild(questionElement);
@@ -298,6 +305,7 @@ function renderOrdering(question) {
         }, { passive: true });
 
         li.addEventListener('touchmove', (e) => {
+            e.preventDefault();
             if (!touchClone) return;
             const touch = e.touches[0];
             touchClone.style.left = (touch.clientX - touchOffsetX) + 'px';
@@ -312,7 +320,7 @@ function renderOrdering(question) {
                     list.insertBefore(draggedItem, target.nextSibling);
                 }
             }
-        }, { passive: true });
+        });
 
         li.addEventListener('touchend', () => {
             if (touchClone) {
