@@ -18,14 +18,6 @@
             }
         },
         {
-            "type": "question",
-            "question": {
-                "type": "flashcard",
-                "front": "What does const mean in JavaScript?",
-                "back": "const declares a variable whose value cannot be reassigned after it is first set."
-            }
-        },
-        {
             "type": "text",
             "content": "Here is what each keyword looks like in practice:\n\n  var age = 25;\n  let score = 0;\n  const name = 'Riccardo';\n\nNotice that const and let are block-scoped — they only exist inside the block (curly braces) where they are declared. var is function-scoped, which is one reason it can behave unexpectedly."
         },
