@@ -7,10 +7,10 @@ let lessonsData = null;
 
 function fetchAllData() {
     Promise.all([
-        fetch('content/fields.json').then(r => r.json()),
-        fetch('content/subjects.json').then(r => r.json()),
-        fetch('content/categories.json').then(r => r.json()),
-        fetch('content/lessons.json').then(r => r.json()),
+        fetch('content/fields.json', { cache: 'no-cache' }).then(r => r.json()),
+        fetch('content/subjects.json', { cache: 'no-cache' }).then(r => r.json()),
+        fetch('content/categories.json', { cache: 'no-cache' }).then(r => r.json()),
+        fetch('content/lessons.json', { cache: 'no-cache' }).then(r => r.json()),
     ]).then(([fields, subjects, categories, lessons]) => {
         fieldsData = fields;
         subjectsData = subjects;
@@ -124,7 +124,7 @@ function loadLessons(categoryId) {
 
 function loadLesson(lessonId) {
     document.getElementById('lesson-content').innerHTML = '';
-    fetch('content/lessons/' + lessonId + '.json')
+    fetch('content/lessons/' + lessonId + '.json', { cache: 'no-cache' })
         .then(r => r.json())
         .then(lesson => {
             lesson.blocks.forEach(block => renderBlock(block));
