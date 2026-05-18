@@ -45,8 +45,7 @@
             "question": {
                 "type": "ordering",
                 "question": "Order these keywords from oldest to newest introduction in JavaScript.",
-                "items": ["const", "var", "let"],
-                "answer": [1, 2, 0]
+                "items": ["var", "let", "const"]
             }
         }
     ]
