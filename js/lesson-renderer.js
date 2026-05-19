@@ -34,7 +34,7 @@ function showFeedbackBar(isCorrect, correctAnswer, explanation, onContinue) {
     continueButton.textContent = "Continue";
     continueButton.addEventListener('click', () => {
         feedbackBar.remove();
-        onContinue();
+        onContinue(isCorrect);
     });
     feedbackBar.classList.add('feedback-bar');
     if (isCorrect) {
@@ -64,7 +64,7 @@ function renderBlock(block, onContinue) {
         lessonContent.appendChild(continueButton);
         continueButton.addEventListener('click', () => {
             continueButton.remove();
-            onContinue();
+            onContinue(true);
         });
     } else {
         renderQuestion(block.question, onContinue);
@@ -201,7 +201,7 @@ function renderMatchingPairs(question, onContinue) {
                         matchedElement.classList.remove('correct');
                         leftButton.classList.add('inactive');
                         matchedElement.classList.add('inactive');
-                        if (matchedPairs === question.pairs.length) onContinue();
+                        if (matchedPairs === question.pairs.length) onContinue(true);
                     }, 1000);
                 } else {
                     leftButton.classList.add('incorrect');
@@ -240,7 +240,7 @@ function renderMatchingPairs(question, onContinue) {
                         matchedElement.classList.remove('correct');
                         rightButton.classList.add('inactive');
                         matchedElement.classList.add('inactive');
-                        if (matchedPairs === question.pairs.length) onContinue();
+                        if (matchedPairs === question.pairs.length) onContinue(true);
                     }, 1000);
                 } else {
                     rightButton.classList.add('incorrect');
@@ -369,4 +369,19 @@ function renderOrdering(question, onContinue) {
     questionElement.appendChild(list);
     questionElement.appendChild(checkAnswer);
     lessonContent.appendChild(questionElement);
+}
+
+function showLessonSummary(mistakes, onContinue) {
+    lessonContent.innerHTML = '';
+    const summaryPage = document.createElement('div');
+    const summaryText = document.createElement('p');
+    const continueButton = document.createElement('button');
+    summaryText.textContent = `Lesson completed! You made ${mistakes} mistake(s).`;
+    continueButton.textContent = "Back to lessons";
+    continueButton.addEventListener('click', () => {
+        onContinue();
+    });
+    summaryPage.appendChild(summaryText);
+    summaryPage.appendChild(continueButton);
+    lessonContent.appendChild(summaryPage);
 }

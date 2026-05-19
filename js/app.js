@@ -124,12 +124,23 @@ function loadLessons(categoryId) {
 
 function loadLesson(lessonId) {
     document.getElementById('lesson-content').innerHTML = '';
+    document.getElementById('nav').style.display = 'none';
     fetch('content/lessons/' + lessonId + '.json', { cache: 'no-cache' })
         .then(r => r.json())
         .then(lesson => {
             let index = 0;
-            function renderNext() {
-                if (index >= lesson.blocks.length) return;
+            let mistakes = 0;
+            function renderNext(wasCorrect) {
+                if (wasCorrect === false) {
+                    mistakes++;
+                }
+                if (index >= lesson.blocks.length) {
+                    showLessonSummary(mistakes, () => {
+                        document.getElementById('nav').style.display = 'block';
+                        goBack('lessons-content-panel', 'lessons-panel');
+                    });
+                    return;
+                }
                 const block = lesson.blocks[index];
                 index++;
                 renderBlock(block, renderNext);
@@ -155,4 +166,5 @@ document.querySelector('#lessons-panel .back-button').addEventListener('click', 
 });
 document.querySelector('#lessons-content-panel .back-button').addEventListener('click', () => {
     goBack('lessons-content-panel', 'lessons-panel');
+    document.getElementById('nav').style.display = 'block';
 });

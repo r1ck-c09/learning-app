@@ -15,7 +15,7 @@
                 "question": "You're building a fitness app that tracks how many steps the user has taken today. The count starts at zero and increases as they walk. Which keyword should you use?",
                 "options": ["const", "let", "var", "int"],
                 "answer": 1,
-                "explanation": "const locks the value in place — once set, it cannot be updated. A step counter needs to increase throughout the day, so you need let, which allows the variable to be reassigned to a new number."
+                "explanation": "A step counter needs to increase throughout the day, which means the variable must be reassignable. let is the only keyword here that allows reassignment to a new value."
             }
         },
         {
