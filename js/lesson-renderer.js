@@ -162,6 +162,7 @@ function renderFillInTheBlank(question, onContinue) {
 function renderMatchingPairs(question, onContinue) {
     let selectedItem = null;
     let matchedPairs = 0;
+    let alreadyCalled = false;
 
     const questionElement = document.createElement('div');
     const questionText = document.createElement('p');
@@ -201,7 +202,10 @@ function renderMatchingPairs(question, onContinue) {
                         matchedElement.classList.remove('correct');
                         leftButton.classList.add('inactive');
                         matchedElement.classList.add('inactive');
-                        if (matchedPairs === question.pairs.length) onContinue(true);
+                        if (matchedPairs === question.pairs.length && !alreadyCalled) {
+                            alreadyCalled = true;
+                            onContinue(true);
+                        }
                     }, 1000);
                 } else {
                     leftButton.classList.add('incorrect');
@@ -240,7 +244,10 @@ function renderMatchingPairs(question, onContinue) {
                         matchedElement.classList.remove('correct');
                         rightButton.classList.add('inactive');
                         matchedElement.classList.add('inactive');
-                        if (matchedPairs === question.pairs.length) onContinue(true);
+                        if (matchedPairs === question.pairs.length && !alreadyCalled) {
+                            alreadyCalled = true;
+                            onContinue(true);
+                        }
                     }, 1000);
                 } else {
                     rightButton.classList.add('incorrect');
