@@ -1,6 +1,24 @@
+/* === BASE === */
+
 body {
     background-color: #000000;
 }
+
+
+/* === LAYOUT === */
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    color: #ffffff;
+}
+.tab-content.active {
+    display: block;
+}
+
+
+/* === NAVIGATION === */
+
 #nav {
     position: fixed;
     bottom: 10px;
@@ -23,14 +41,10 @@ body {
 #nav button.active {
     background-color: #3f3f3f;
 }
-.tab-content {
-    display: none;
-    padding: 20px;
-    color: #ffffff;
-}
-.tab-content.active {
-    display: block;
-}
+
+
+/* === PANELS === */
+
 #courses-panel {
     overflow-y: auto;
 }
@@ -40,6 +54,10 @@ body {
     align-items: center;
     justify-content: flex-start;
 }
+
+
+/* === CARDS === */
+
 .field-card {
     width: 65%;
     height: 200px;
@@ -47,3 +65,33 @@ body {
     border: 2px solid rgba(255,255,255,0.1);
     margin-bottom: 16px;
 }
+
+
+/* === LESSON CONTENT === */
+
+
+/* === QUESTION TYPES === */
+
+
+/* === FEEDBACK BAR === */
+
+.feedback-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+.feedback-bar.correct {
+    background-color: #4CAF50;
+}
+.feedback-bar.incorrect {
+    background-color: #f44336;
+}
+
+
+/* === LESSON SUMMARY === */
