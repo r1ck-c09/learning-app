@@ -127,7 +127,14 @@ function loadLesson(lessonId) {
     fetch('content/lessons/' + lessonId + '.json', { cache: 'no-cache' })
         .then(r => r.json())
         .then(lesson => {
-            lesson.blocks.forEach(block => renderBlock(block));
+            let index = 0;
+            function renderNext() {
+                if (index >= lesson.blocks.length) return;
+                const block = lesson.blocks[index];
+                index++;
+                renderBlock(block, renderNext);
+            }
+            renderNext();
         });
 }
 

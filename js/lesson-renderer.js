@@ -26,38 +26,71 @@ function shuffle(array) {
     return array;
 }
 
+function showFeedbackBar(isCorrect, correctAnswer, explanation, onContinue) {
+    const feedbackBar = document.createElement('div');
+    const continueButton = document.createElement('button');
+    const answerText = document.createElement('p');
+    answerText.textContent = isCorrect ? "Correct!" : `Incorrect. Correct answer: ${correctAnswer}`;
+    continueButton.textContent = "Continue";
+    continueButton.addEventListener('click', () => {
+        feedbackBar.remove();
+        onContinue();
+    });
+    feedbackBar.classList.add('feedback-bar');
+    if (isCorrect) {
+        feedbackBar.classList.add('correct');
+    } else {
+        feedbackBar.classList.add('incorrect');
+    }
+    feedbackBar.appendChild(answerText);
+    if (explanation) {
+        const explanationText = document.createElement('p');
+        explanationText.textContent = explanation;
+        feedbackBar.appendChild(explanationText);
+    }
+    feedbackBar.appendChild(continueButton);
+    lessonContent.appendChild(feedbackBar);
+}
+
 // renderers
 
-function renderBlock(block) {
+function renderBlock(block, onContinue) {
     if (block.type === "text") {
         const blockText = document.createElement('p');
+        const continueButton = document.createElement('button');
+        continueButton.textContent = "Continue";
         blockText.textContent = block.content; 
         lessonContent.appendChild(blockText);
+        lessonContent.appendChild(continueButton);
+        continueButton.addEventListener('click', () => {
+            continueButton.remove();
+            onContinue();
+        });
     } else {
-        renderQuestion(block.question);
+        renderQuestion(block.question, onContinue);
     }
 }
 
-function renderQuestion(question) {
+function renderQuestion(question, onContinue) {
     switch (question.type) {
         case "multiple-choice":
-            renderMultipleChoice(question);
+            renderMultipleChoice(question, onContinue);
             break;
         case "fill-in-the-blank":
-            renderFillInTheBlank(question);
+            renderFillInTheBlank(question, onContinue);
             break;
         case "matching-pairs":
-            renderMatchingPairs(question);
+            renderMatchingPairs(question, onContinue);
             break;
         case "ordering":
-            renderOrdering(question);
+            renderOrdering(question, onContinue);
             break;
         default:
             console.warn('Unknown question type:', question.type);
     }
 }
 
-function renderMultipleChoice(question) {
+function renderMultipleChoice(question, onContinue) {
     let chosenIndex = null;
     let alreadyAnswered = false;
 
@@ -84,17 +117,7 @@ function renderMultipleChoice(question) {
     });
 
     checkAnswer.addEventListener('click', () => {
-        if (chosenIndex === question.answer) {
-            const checkmark = document.createElement('p');
-            checkmark.textContent = "✓";
-            checkmark.classList.add('correct');
-            questionElement.appendChild(checkmark);
-        } else {
-            const cross = document.createElement('p');
-            cross.textContent = "✗";
-            cross.classList.add('incorrect');
-            questionElement.appendChild(cross);
-        }
+        showFeedbackBar(chosenIndex === question.answer, question.options[question.answer], question.explanation, onContinue);
         questionElement.querySelectorAll('button').forEach(btn => btn.disabled = true);
         alreadyAnswered = true;
     });
@@ -103,7 +126,7 @@ function renderMultipleChoice(question) {
     lessonContent.appendChild(questionElement);
 }
 
-function renderFillInTheBlank(question) {
+function renderFillInTheBlank(question, onContinue) {
     let alreadyAnswered = false;
 
     const questionElement = document.createElement('div');
@@ -124,17 +147,7 @@ function renderFillInTheBlank(question) {
     });
 
     checkAnswer.addEventListener('click', () => {
-        if (levenshtein(answerField.value.toLowerCase(), question.answer.toLowerCase()) <= 2) {
-            const checkmark = document.createElement('p');
-            checkmark.textContent = "✓";
-            checkmark.classList.add('correct');
-            questionElement.appendChild(checkmark);
-        } else {
-            const cross = document.createElement('p');
-            cross.textContent = "✗";
-            cross.classList.add('incorrect');
-            questionElement.appendChild(cross);
-        }
+        showFeedbackBar(levenshtein(answerField.value.toLowerCase(), question.answer.toLowerCase()) <= 2, question.answer, question.explanation, onContinue);
         checkAnswer.disabled = true;
         answerField.disabled = true;
         alreadyAnswered = true;
@@ -146,8 +159,9 @@ function renderFillInTheBlank(question) {
     lessonContent.appendChild(questionElement);
 }
 
-function renderMatchingPairs(question) {
+function renderMatchingPairs(question, onContinue) {
     let selectedItem = null;
+    let matchedPairs = 0;
 
     const questionElement = document.createElement('div');
     const questionText = document.createElement('p');
@@ -179,6 +193,7 @@ function renderMatchingPairs(question) {
                     leftButton.classList.add('correct');
                     matchedElement.classList.add('correct');
                     selectedItem = null;
+                    matchedPairs++;
                     setTimeout(() => {
                         leftButton.disabled = true;
                         matchedElement.disabled = true;
@@ -186,6 +201,7 @@ function renderMatchingPairs(question) {
                         matchedElement.classList.remove('correct');
                         leftButton.classList.add('inactive');
                         matchedElement.classList.add('inactive');
+                        if (matchedPairs === question.pairs.length) onContinue();
                     }, 1000);
                 } else {
                     leftButton.classList.add('incorrect');
@@ -216,6 +232,7 @@ function renderMatchingPairs(question) {
                     rightButton.classList.add('correct');
                     matchedElement.classList.add('correct');
                     selectedItem = null;
+                    matchedPairs++;
                     setTimeout(() => {
                         rightButton.disabled = true;
                         matchedElement.disabled = true;
@@ -223,6 +240,7 @@ function renderMatchingPairs(question) {
                         matchedElement.classList.remove('correct');
                         rightButton.classList.add('inactive');
                         matchedElement.classList.add('inactive');
+                        if (matchedPairs === question.pairs.length) onContinue();
                     }, 1000);
                 } else {
                     rightButton.classList.add('incorrect');
@@ -245,7 +263,7 @@ function renderMatchingPairs(question) {
     lessonContent.appendChild(questionElement);
   }
 
-function renderOrdering(question) {
+function renderOrdering(question, onContinue) {
     let draggedItem = null;
     let touchClone = null;
     let touchOffsetX = 0;
@@ -326,6 +344,7 @@ function renderOrdering(question) {
         });
 
         li.addEventListener('touchend', () => {
+            if (alreadyAnswered) return;
             if (touchClone) {
                 document.body.removeChild(touchClone);
                 touchClone = null;
@@ -340,15 +359,7 @@ function renderOrdering(question) {
     checkAnswer.addEventListener('click', () => {
         const currentOrder = [...list.querySelectorAll('li')].map(li => li.textContent);
         const correct = question.items.every((item, i) => item === currentOrder[i]);
-        const feedback = document.createElement('p');
-        if (correct) {
-            feedback.textContent = "✓";
-            feedback.classList.add('correct');
-        } else {
-            feedback.textContent = "✗";
-            feedback.classList.add('incorrect');
-        }
-        questionElement.appendChild(feedback);
+        showFeedbackBar(correct, question.items.join(' → '), question.explanation, onContinue);
         checkAnswer.disabled = true;
         alreadyAnswered = true;
         list.querySelectorAll('li').forEach(item => item.draggable = false);
