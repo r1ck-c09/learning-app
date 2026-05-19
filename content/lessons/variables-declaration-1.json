@@ -14,7 +14,8 @@
                 "type": "multiple-choice",
                 "question": "You're building a fitness app that tracks how many steps the user has taken today. The count starts at zero and increases as they walk. Which keyword should you use?",
                 "options": ["const", "let", "var", "int"],
-                "answer": 1
+                "answer": 1,
+                "explanation": "const locks the value in place — once set, it cannot be updated. A step counter needs to increase throughout the day, so you need let, which allows the variable to be reassigned to a new number."
             }
         },
         {
@@ -26,7 +27,8 @@
             "question": {
                 "type": "fill-in-the-blank",
                 "question": "A const variable cannot be ___ after it is created.",
-                "answer": "reassigned"
+                "answer": "reassigned",
+                "explanation": "Reassignment means pointing the variable name at a new value entirely. Note: const prevents reassignment, but if the value is an object or array, you can still modify its contents — just not replace the reference itself."
             }
         },
         {
@@ -50,7 +52,8 @@
             "question": {
                 "type": "ordering",
                 "question": "Order these keywords from most to least restrictive.",
-                "items": ["const", "let", "var"]
+                "items": ["const", "let", "var"],
+                "explanation": "const is most restrictive — it blocks reassignment entirely. let allows reassignment but respects block scope. var is least restrictive — it allows reassignment and ignores block boundaries."
             }
         }
     ]
