@@ -124,6 +124,7 @@ function loadLessons(categoryId) {
 
 function loadLesson(lessonId) {
     document.getElementById('lesson-content').innerHTML = '';
+    document.querySelector('#lessons-content-panel .back-button').style.display = '';
     document.getElementById('nav').style.display = 'none';
     fetch('content/lessons/' + lessonId + '.json', { cache: 'no-cache' })
         .then(r => r.json())
@@ -135,6 +136,7 @@ function loadLesson(lessonId) {
                     mistakes++;
                 }
                 if (index >= lesson.blocks.length) {
+                    document.querySelector('#lessons-content-panel .back-button').style.display = 'none';
                     showLessonSummary(mistakes, () => {
                         document.getElementById('nav').style.display = 'block';
                         goBack('lessons-content-panel', 'lessons-panel');
