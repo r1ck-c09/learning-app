@@ -31,6 +31,7 @@ function showFeedbackBar(isCorrect, correctAnswer, explanation, onContinue) {
     const continueButton = document.createElement('button');
     const answerText = document.createElement('p');
     answerText.textContent = isCorrect ? "Correct!" : `Incorrect. Correct answer: ${correctAnswer}`;
+    answerText.classList.add('feedback-answer');
     continueButton.textContent = "Continue";
     continueButton.addEventListener('click', () => {
         feedbackBar.remove();
@@ -55,9 +56,11 @@ function showFeedbackBar(isCorrect, correctAnswer, explanation, onContinue) {
 // renderers
 
 function renderBlock(block, onContinue) {
+    lessonContent.innerHTML = '';
     if (block.type === "text") {
         const blockText = document.createElement('p');
         const continueButton = document.createElement('button');
+        continueButton.classList.add('primary-btn');
         continueButton.textContent = "Continue";
         blockText.textContent = block.content; 
         lessonContent.appendChild(blockText);
@@ -97,6 +100,7 @@ function renderMultipleChoice(question, onContinue) {
     const questionElement = document.createElement('div');
     const questionText = document.createElement('p');
     const checkAnswer = document.createElement('button');
+    checkAnswer.classList.add('primary-btn');
 
     questionText.textContent = question.question;
     checkAnswer.textContent = "Check";
@@ -105,6 +109,7 @@ function renderMultipleChoice(question, onContinue) {
     questionElement.appendChild(questionText);
     question.options.forEach((option, index) => {
         const questionOption = document.createElement('button');
+        questionOption.classList.add('mc-option');
         questionOption.textContent = option;
         questionOption.addEventListener('click', () => {
             if (alreadyAnswered) return;
@@ -124,6 +129,7 @@ function renderMultipleChoice(question, onContinue) {
 
     questionElement.appendChild(checkAnswer);
     lessonContent.appendChild(questionElement);
+    checkAnswer.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 function renderFillInTheBlank(question, onContinue) {
@@ -132,7 +138,9 @@ function renderFillInTheBlank(question, onContinue) {
     const questionElement = document.createElement('div');
     const questionText = document.createElement('p');
     const answerField = document.createElement('input');
+    answerField.classList.add('fitb-input');
     const checkAnswer = document.createElement('button');
+    checkAnswer.classList.add('primary-btn');
 
     questionText.textContent = question.question;
     checkAnswer.textContent = "Check";
@@ -157,6 +165,7 @@ function renderFillInTheBlank(question, onContinue) {
     questionElement.appendChild(answerField);
     questionElement.appendChild(checkAnswer);
     lessonContent.appendChild(questionElement);
+    checkAnswer.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 function renderMatchingPairs(question, onContinue) {
@@ -166,16 +175,18 @@ function renderMatchingPairs(question, onContinue) {
 
     const questionElement = document.createElement('div');
     const questionText = document.createElement('p');
-    const leftCol = document.createElement('div');
-    const rightCol = document.createElement('div');
+    const pairsGrid = document.createElement('div');
+    pairsGrid.classList.add('pairs-grid');
 
     questionText.textContent = question.question;
     const rightValues = shuffle(question.pairs.map(p => p.right));
 
     for (let i = 0; i < question.pairs.length; i++) {
         const leftButton = document.createElement('button');
+        leftButton.classList.add('pairs-btn');
         const rightButton = document.createElement('button');
-        leftButton.textContent = question.pairs[i].left; 
+        rightButton.classList.add('pairs-btn');
+        leftButton.textContent = question.pairs[i].left;
         rightButton.textContent = rightValues[i];
         leftButton.addEventListener('click', () => {
             if (selectedItem === null) {
@@ -261,12 +272,11 @@ function renderMatchingPairs(question, onContinue) {
             }
         });
         
-        leftCol.appendChild(leftButton);
-        rightCol.appendChild(rightButton);
+        pairsGrid.appendChild(leftButton);
+        pairsGrid.appendChild(rightButton);
     }
     questionElement.appendChild(questionText);
-    questionElement.appendChild(leftCol);
-    questionElement.appendChild(rightCol);
+    questionElement.appendChild(pairsGrid);
     lessonContent.appendChild(questionElement);
   }
 
@@ -280,7 +290,9 @@ function renderOrdering(question, onContinue) {
     const questionElement = document.createElement('div');
     const questionText = document.createElement('p');
     const list = document.createElement('ul');
+    list.classList.add('ordering-list');
     const checkAnswer = document.createElement('button');
+    checkAnswer.classList.add('primary-btn');
 
     questionText.textContent = question.question;
     checkAnswer.textContent = "Check";
@@ -291,8 +303,12 @@ function renderOrdering(question, onContinue) {
         li.textContent = text;
         li.draggable = true;
 
-        li.addEventListener('dragstart', () => {
+        li.addEventListener('dragstart', (e) => {
             if (alreadyAnswered) return;
+            const ghost = document.createElement('canvas');
+            ghost.width = 1;
+            ghost.height = 1;
+            e.dataTransfer.setDragImage(ghost, 0, 0);
             draggedItem = li;
             setTimeout(() => li.classList.add('dragging'), 0);
         });
@@ -376,6 +392,7 @@ function renderOrdering(question, onContinue) {
     questionElement.appendChild(list);
     questionElement.appendChild(checkAnswer);
     lessonContent.appendChild(questionElement);
+    checkAnswer.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 function showLessonSummary(mistakes, onContinue) {

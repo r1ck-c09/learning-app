@@ -138,7 +138,7 @@ function loadLesson(lessonId) {
                 if (index >= lesson.blocks.length) {
                     document.querySelector('#lessons-content-panel .back-button').style.display = 'none';
                     showLessonSummary(mistakes, () => {
-                        document.getElementById('nav').style.display = 'block';
+                        document.getElementById('nav').style.display = '';
                         goBack('lessons-content-panel', 'lessons-panel');
                     });
                     return;
@@ -168,5 +168,5 @@ document.querySelector('#lessons-panel .back-button').addEventListener('click', 
 });
 document.querySelector('#lessons-content-panel .back-button').addEventListener('click', () => {
     goBack('lessons-content-panel', 'lessons-panel');
-    document.getElementById('nav').style.display = 'block';
+    document.getElementById('nav').style.display = '';
 });
