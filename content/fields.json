@@ -4,19 +4,19 @@
             "id": "languages",
             "name": "Languages",
             "color": "#22c55e",
-            "icon": "placeholder"
+            "icon": "🌍"
         },
         {
             "id": "coding-basics",
             "name": "Coding Basics",
             "color": "#3b82f6",
-            "icon": "placeholder"
+            "icon": "💻"
         },
         {
             "id": "science",
             "name": "Science",
             "color": "#f59e0b",
-            "icon": "placeholder"
+            "icon": "🔬"
         }
     ]
 }

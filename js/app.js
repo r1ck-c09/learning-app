@@ -93,33 +93,53 @@ function showTab(){
                 }
             });
             if (target === 'home-panel' && fieldsData) renderHome();
+            if (target === 'statistics-panel' && fieldsData) renderStats();
         });
     });
 }
 
 function loadCourses() {
     const coursesPanel = document.getElementById('courses-panel');
+    coursesPanel.innerHTML = '';
+    const started = JSON.parse(localStorage.getItem('startedLessons')) || {};
+
+    const header = document.createElement('div');
+    header.classList.add('courses-header');
+    header.innerHTML = '<h1 class="courses-title">Learn</h1>';
+    coursesPanel.appendChild(header);
 
     fieldsData.fields.forEach(field => {
+        const subjects = subjectsData.subjects.filter(s => s.fieldId === field.id);
+        const fieldLessons = lessonsData.lessons.filter(l => {
+            const c = categoriesData.categories.find(cat => cat.id === l.categoryId);
+            const s = c && subjectsData.subjects.find(sub => sub.id === c.subjectId);
+            return s && s.fieldId === field.id;
+        });
+        const fieldDone = fieldLessons.filter(l => started[l.id] === true).length;
+        const pct = fieldLessons.length > 0 ? Math.round((fieldDone / fieldLessons.length) * 100) : 0;
+
         const card = document.createElement('div');
         card.classList.add('field-card');
-        card.style.setProperty('--accent-color', field.color);
-        coursesPanel.appendChild(card);
-        const cardText = document.createElement('h2');
-        cardText.textContent = field.name;
-        card.appendChild(cardText);
-        const cardIcon = document.createElement('img');
-        cardIcon.src = field.icon;
-        card.appendChild(cardIcon);
+        card.style.setProperty('--field-color', field.color);
+        card.innerHTML =
+            '<div class="field-card-icon">' + field.icon + '</div>' +
+            '<div class="field-card-body">' +
+                '<div class="field-card-name">' + field.name + '</div>' +
+                '<div class="field-card-meta">' + subjects.length + ' subjects · ' + fieldLessons.length + ' lessons</div>' +
+            '</div>' +
+            '<div class="field-card-footer">' +
+                '<div class="field-card-progress-bar"><div class="field-card-progress-fill" style="width:' + pct + '%"></div></div>' +
+                '<div class="field-card-progress-label">' + fieldDone + ' of ' + fieldLessons.length + ' done</div>' +
+            '</div>';
         card.addEventListener('click', () => {
-            const subjectsPanel = document.getElementById('subjects-panel');
-            document.querySelector('#subjects-panel .panel-title-big').textContent = field.name;
             currentFieldName = field.name;
             currentFieldColor = field.color;
+            document.querySelector('#subjects-panel .panel-title-big').textContent = field.name;
             coursesPanel.classList.remove('active');
-            subjectsPanel.classList.add('active');
+            document.getElementById('subjects-panel').classList.add('active');
             loadSubjects(field.id);
         });
+        coursesPanel.appendChild(card);
     });
 }
 
@@ -482,6 +502,136 @@ function renderHome() {
     });
     exploreSection.appendChild(fieldRow);
     panel.appendChild(exploreSection);
+}
+
+function renderStats() {
+    if (!fieldsData) return;
+    const panel = document.getElementById('statistics-panel');
+    panel.innerHTML = '';
+    const started = JSON.parse(localStorage.getItem('startedLessons')) || {};
+    const xp = getTodayXp();
+    const streak = getStreak();
+    const lessonsDone = Object.values(started).filter(function(v) { return v === true; }).length;
+    const minutes = lessonsDone * 3;
+
+    // Header
+    const header = document.createElement('div');
+    header.classList.add('stats-header');
+    header.innerHTML = '<h1 class="stats-title">Stats</h1>';
+    panel.appendChild(header);
+
+    // 2x2 stat tiles
+    const tiles = [
+        { value: xp + ' XP', label: 'Total XP', icon: '⚡' },
+        { value: streak, label: 'Day streak', icon: '🔥' },
+        { value: lessonsDone, label: 'Lessons done', icon: '📖' },
+        { value: minutes + ' min', label: 'Time spent', icon: '⏱' },
+    ];
+    const tilesGrid = document.createElement('div');
+    tilesGrid.classList.add('stats-tiles');
+    tiles.forEach(function(t) {
+        const tile = document.createElement('div');
+        tile.classList.add('stats-tile');
+        tile.innerHTML =
+            '<span class="stats-tile-icon">' + t.icon + '</span>' +
+            '<span class="stats-tile-value">' + t.value + '</span>' +
+            '<span class="stats-tile-label">' + t.label + '</span>';
+        tilesGrid.appendChild(tile);
+    });
+    panel.appendChild(tilesGrid);
+
+    // This week bar chart
+    const weekSection = document.createElement('div');
+    weekSection.classList.add('stats-section');
+    weekSection.innerHTML = '<div class="stats-section-title">This week</div>';
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const todayDay = (new Date().getDay() + 6) % 7;
+    const placeholderPast = [2, 4, 1, 3, 2, 5];
+    const barData = days.map(function(_, i) {
+        if (i === todayDay) return Math.max(lessonsDone, 1);
+        if (i < todayDay) return placeholderPast[i % placeholderPast.length];
+        return 0;
+    });
+    const maxBar = Math.max.apply(null, barData.concat([1]));
+    const chart = document.createElement('div');
+    chart.classList.add('stats-chart');
+    days.forEach(function(day, i) {
+        const col = document.createElement('div');
+        col.classList.add('stats-chart-col');
+        const bar = document.createElement('div');
+        bar.classList.add('stats-chart-bar');
+        bar.style.height = Math.round((barData[i] / maxBar) * 100) + '%';
+        if (i === todayDay) bar.classList.add('today');
+        else if (i > todayDay) bar.classList.add('future');
+        const label = document.createElement('div');
+        label.classList.add('stats-chart-label');
+        if (i === todayDay) label.classList.add('today');
+        label.textContent = day;
+        col.appendChild(bar);
+        col.appendChild(label);
+        chart.appendChild(col);
+    });
+    weekSection.appendChild(chart);
+    panel.appendChild(weekSection);
+
+    // Per-field progress
+    const progressSection = document.createElement('div');
+    progressSection.classList.add('stats-section');
+    progressSection.innerHTML = '<div class="stats-section-title">Your progress</div>';
+    fieldsData.fields.forEach(function(field) {
+        const fieldLessons = lessonsData.lessons.filter(function(l) {
+            const c = categoriesData.categories.find(function(cat) { return cat.id === l.categoryId; });
+            const s = c && subjectsData.subjects.find(function(sub) { return sub.id === c.subjectId; });
+            return s && s.fieldId === field.id;
+        });
+        const fieldDone = fieldLessons.filter(function(l) { return started[l.id] === true; }).length;
+        const pct = fieldLessons.length > 0 ? Math.round((fieldDone / fieldLessons.length) * 100) : 0;
+        const row = document.createElement('div');
+        row.classList.add('stats-progress-row');
+        row.innerHTML =
+            '<div class="stats-progress-header">' +
+                '<div class="stats-progress-chip" style="background:' + field.color + '22;color:' + field.color + '">' + field.name[0] + '</div>' +
+                '<div class="stats-progress-name">' + field.name + '</div>' +
+                '<div class="stats-progress-count" style="color:' + field.color + '">' + fieldDone + ' / ' + fieldLessons.length + '</div>' +
+            '</div>' +
+            '<div class="stats-progress-bar"><div class="stats-progress-fill" style="width:' + pct + '%;background:' + field.color + '"></div></div>';
+        progressSection.appendChild(row);
+    });
+    panel.appendChild(progressSection);
+
+    // Achievements
+    const langField = fieldsData.fields.find(function(f) { return f.name.toLowerCase().includes('lang'); });
+    const langDone = langField ? lessonsData.lessons.some(function(l) {
+        if (started[l.id] !== true) return false;
+        const c = categoriesData.categories.find(function(cat) { return cat.id === l.categoryId; });
+        const s = c && subjectsData.subjects.find(function(sub) { return sub.id === c.subjectId; });
+        return s && s.fieldId === langField.id;
+    }) : false;
+    const achievements = [
+        { icon: '🎉', name: 'First Steps', desc: 'Complete your first lesson', unlocked: lessonsDone >= 1 },
+        { icon: '📚', name: 'On a Roll', desc: 'Complete 3 lessons', unlocked: lessonsDone >= 3 },
+        { icon: '🔥', name: 'Week Warrior', desc: 'Reach a 3-day streak', unlocked: streak >= 3 },
+        { icon: '🗣️', name: 'Language Lover', desc: 'Complete a language lesson', unlocked: langDone },
+        { icon: '🏆', name: 'Champion', desc: 'Complete 10 lessons', unlocked: lessonsDone >= 10 },
+        { icon: '⚡', name: 'Power Learner', desc: 'Earn 100 XP', unlocked: xp >= 100 },
+    ];
+    const achSection = document.createElement('div');
+    achSection.classList.add('stats-section');
+    achSection.innerHTML = '<div class="stats-section-title">Achievements</div>';
+    const achGrid = document.createElement('div');
+    achGrid.classList.add('stats-achievements');
+    achievements.forEach(function(ach) {
+        const badge = document.createElement('div');
+        badge.classList.add('stats-badge');
+        if (!ach.unlocked) badge.classList.add('locked');
+        badge.innerHTML =
+            '<div class="stats-badge-icon">' + (ach.unlocked ? ach.icon : '🔒') + '</div>' +
+            '<div class="stats-badge-name">' + ach.name + '</div>' +
+            '<div class="stats-badge-desc">' + ach.desc + '</div>';
+        achGrid.appendChild(badge);
+    });
+    achSection.appendChild(achGrid);
+    panel.appendChild(achSection);
 }
 
 // Init
